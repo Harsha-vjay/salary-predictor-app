@@ -1,0 +1,336 @@
+body {
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+}
+
+.main-bg {
+    position: fixed;
+    top: -200px;
+    left: -200px;
+    width: 900px;
+    height: 900px;
+    background: linear-gradient(135deg, #ffc1e3 0%, #e0e9fa 100%);
+    z-index: 0;
+    border-radius: 50%;
+    opacity: 0.45;
+}
+
+.container {
+    z-index: 2;
+    position: relative;
+    max-width: 1100px;
+    margin: 60px auto 0 auto;
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 20px 60px 0 rgba(44, 62, 80, 0.17);
+    padding: 0 0 32px 0;
+    overflow: hidden;
+}
+
+.header-section {
+    background: #1d2dfa;
+    color: white;
+    padding: 32px 48px 24px 48px;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 20px;
+    gap: 10px;
+    letter-spacing: 1px;
+}
+
+.logo-dot {
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: 0 0 0 4px #ffe0ed;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-family: inherit;
+    color: #fff;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-content h1 {
+    margin: 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.date-label {
+    font-size: 1rem;
+    color: #cbe5f7;
+    margin-bottom: 6px;
+}
+
+.illustration img {
+    border-radius: 50%;
+    background: #fff;
+    padding: 12px;
+    box-shadow: 0 8px 30px rgba(44, 62, 80, 0.10);
+}
+
+.tab-section {
+    display: flex;
+    gap: 16px;
+    background: #f8faff;
+    padding: 0 40px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.tab {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    padding: 18px 22px 10px 22px;
+    font-weight: 600;
+    color: #1d2dfa;
+    border-radius: 18px 18px 0 0;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    outline: none;
+}
+
+.tab.active, .tab:hover {
+    background: #fff;
+    color: #1d2dfa;
+    box-shadow: 0 4px 12px rgba(29,45,250,0.04);
+    text-decoration: none;
+}
+
+.content-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 40px 48px 0 48px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 32px 0 rgba(44, 62, 80, 0.06);
+    padding: 32px 26px;
+    min-width: 320px;
+    flex: 1 1 0;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.left-card {
+    max-width: 330px;
+    align-items: stretch;
+}
+
+.right-card {
+    max-width: 360px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1d2dfa;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+}
+
+.form-section label {
+    display: block;
+    margin: 18px 0 6px 0;
+    font-weight: 600;
+    color: #253858;
+    font-size: 1rem;
+}
+
+.form-section select,
+.form-section input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #e3e9f0;
+    background: #f8fafc;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-section select:focus,
+.form-section input[type="number"]:focus {
+    border-color: #1d2dfa;
+    background: #fff;
+}
+
+.predict-btn {
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(90deg,#ff5f7e 0%, #1d2dfa 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 18px;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 12px rgba(29,45,250,0.09);
+}
+
+.predict-btn:hover {
+    background: linear-gradient(90deg,#1d2dfa 0%, #ff5f7e 100%);
+}
+
+.salary-amount {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #1d2dfa;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.salary-amount .currency {
+    font-size: 1.5rem;
+    margin-right: 6px;
+    color: #ff5f7e;
+}
+
+.result-label {
+    font-size: 1.06rem;
+    color: #8898aa;
+    margin-bottom: 18px;
+}
+
+.placeholder-text {
+    color: #c1c8d7;
+    margin: 34px 0 24px 0;
+    font-size: 1.15rem;
+}
+
+.report-summary {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-right: 2px;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(360px, auto);
+    gap: 32px;
+    padding: 42px 48px 32px 48px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.analytics-card {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 32px 0 rgba(44,62,80,0.06);
+    padding: 26px 24px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+}
+
+.analytics-card .card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1d2dfa;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-img {
+    width: 98%;
+    max-width: 420px;
+    max-height: 250px;
+    min-height: 180px;
+    margin: 6px 0 0 0;
+    border-radius: 18px;
+    background: #f8faff;
+    box-shadow: 0 1px 8px rgba(44,62,80,0.08);
+    object-fit: contain;
+}
+
+@media (max-width: 1100px) {
+    .container {
+        max-width: 98vw;
+        padding: 0 0 26px 0;
+    }
+    .content-section {
+        flex-direction: column;
+        gap: 18px;
+        padding: 32px 12px 0 12px;
+        align-items: stretch;
+    }
+    .header-section {
+        padding: 24px 18px 18px 18px;
+    }
+    .tab-section {
+        padding: 0 14px;
+    }
+    .analytics-grid {
+        grid-template-columns: 1fr;
+        padding: 32px 14px 20px 14px;
+        gap: 20px;
+    }
+    .dashboard-img {
+        max-width: 100vw;
+        width: 100%;
+    }
+}

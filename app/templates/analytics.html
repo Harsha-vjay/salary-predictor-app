@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salary Analytics Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-bg"></div>
+    <div class="container">
+        <div class="header-section">
+            <div class="logo-title">
+                <span class="logo-dot"></span>
+                <span class="logo-text">Big Data Programming : Project</span>
+            </div>
+            <div class="header-content">
+                <div>
+                    <div class="date-label">July 2025</div>
+                    <h1>Developer Salary Analytics</h1>
+                </div>
+                <div class="illustration">
+                    <img src="https://cdn.dribbble.com/users/2592071/screenshots/7327591/logo-artboard_2_4x_4x.png" alt="Developer" width="120">
+                </div>
+            </div>
+        </div>
+        <div class="tab-section">
+            <a class="tab" href="/">Salary Prediction</a>
+            <a class="tab active" href="/analytics">Analytics</a>
+        </div>
+        <div class="analytics-grid">
+            <div class="analytics-card">
+                <div class="card-title">Salary Distribution</div>
+                <img src="data:image/png;base64,{{ salary_dist }}" class="dashboard-img"/>
+            </div>
+            <div class="analytics-card">
+                <div class="card-title">Top Countries by Avg Salary</div>
+                <img src="data:image/png;base64,{{ top_countries }}" class="dashboard-img"/>
+            </div>
+            <div class="analytics-card">
+                <div class="card-title">Avg Salary by Education</div>
+                <img src="data:image/png;base64,{{ top_edu }}" class="dashboard-img"/>
+            </div>
+            <div class="analytics-card">
+                <div class="card-title">Avg Salary by Employment Type</div>
+                <img src="data:image/png;base64,{{ top_emp }}" class="dashboard-img"/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
