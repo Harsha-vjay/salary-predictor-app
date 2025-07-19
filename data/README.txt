@@ -1,0 +1,1 @@
+This folder will be added to .gitignore to ignore raw and large data files
