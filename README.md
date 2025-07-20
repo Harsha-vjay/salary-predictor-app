@@ -132,7 +132,10 @@ License
 
 
 
-Credits:
+## Credits
 
-Stack Overflow Developer Survey dataset
-Harsha Vijaya Kumar
+- Stack Overflow Developer Survey dataset
+- [GitHub](https://github.com/Harsha-vjay)
+- [GitHub](https://github.com/SidharthA42)
+- [GitHub](https://github.com/valeskadsouza)
+- [GitHub](https://github.com/harshi-200329)
