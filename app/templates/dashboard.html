@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}Developer Salary Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="header-content">
+        <h1 class="dashboard-title">
+            <i class="fas fa-chart-line"></i>
+            Developer Salary Dashboard
+        </h1>
+        <p class="dashboard-subtitle">Predict salaries and visualize analytics for developers worldwide</p>
+    </div>
+</div>
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon users">
+            <i class="fas fa-database"></i>
+        </div>
+        <div class="stat-content">
+            <h3 class="stat-value">{{ stats.total_records }}</h3>
+            <p class="stat-label">Data Samples</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon revenue">
+            <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="stat-content">
+            <h3 class="stat-value">${{ "{:,}".format(stats.avg_salary) }}</h3>
+            <p class="stat-label">Average Salary</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon conversion">
+            <i class="fas fa-globe"></i>
+        </div>
+        <div class="stat-content">
+            <h3 class="stat-value">{{ stats.num_countries }}</h3>
+            <p class="stat-label">Country Records</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon sessions">
+            <i class="fas fa-brain"></i>
+        </div>
+        <div class="stat-content">
+            <h3 class="stat-value">{{ stats.num_models }}</h3>
+            <p class="stat-label">ML Models</p>
+        </div>
+    </div>
+</div>
+
+<!-- ML Prediction Section -->
+<div class="prediction-section">
+    <div class="prediction-card">
+        <div class="prediction-header">
+            <h3 class="prediction-title">
+                <i class="fas fa-brain"></i>
+                Predict Developer Salary
+            </h3>
+        </div>
+        <div class="prediction-content">
+            <div class="prediction-inputs" id="prediction-inputs">
+                <form id="salaryPredictionForm">
+                    <div class="input-group">
+                        <label for="model">Model</label>
+                        <select id="model" name="model">
+                            {% for m in models %}<option value="{{m}}">{{m}}</option>{% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="country">Country</label>
+                        <select id="country" name="country">
+                            {% for c in countries %}<option value="{{c}}">{{c}}</option>{% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="education">Education</label>
+                        <select id="education" name="education">
+                            {% for e in educations %}<option value="{{e}}">{{e}}</option>{% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="employment">Employment</label>
+                        <select id="employment" name="employment">
+                            {% for emp in employments %}<option value="{{emp}}">{{emp}}</option>{% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="experience">Years of Experience</label>
+                        <input type="number" id="experience" name="experience" min="0" step="0.1" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Predict Salary</button>
+                </form>
+            </div>
+            <div class="prediction-results" id="prediction-result">
+                <div class="animated-salary-result" id="animatedSalaryResult" style="display:none;">
+                    <div class="celebrate-emoji" id="celebrateEmoji">🎉</div>
+                    <div class="salary-label">Predicted Salary</div>
+                    <div class="salary-amount" id="salaryAmount">$0</div>
+                </div>
+                <div class="result-placeholder" id="predictionPlaceholder" style="display:block;">
+                    <i class="fas fa-lightbulb"></i>
+                    <p>Enter details and predict salary.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="charts-grid">
+    <div class="chart-card medium">
+        <div class="chart-header">
+            <h3 class="chart-title">
+                <i class="fas fa-chart-bar"></i>
+                Salary Distribution
+            </h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="salaryDistributionChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card medium">
+        <div class="chart-header">
+            <h3 class="chart-title">
+                <i class="fas fa-flag"></i>
+                Top Countries by Avg Salary
+            </h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="topCountriesChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card medium">
+        <div class="chart-header">
+            <h3 class="chart-title">
+                <i class="fas fa-graduation-cap"></i>
+                Avg Salary by Education
+            </h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="educationSalaryChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card medium">
+        <div class="chart-header">
+            <h3 class="chart-title">
+                <i class="fas fa-briefcase"></i>
+                Avg Salary by Employment
+            </h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="employmentSalaryChart"></canvas>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Salary Prediction AJAX
+    document.getElementById('salaryPredictionForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const data = {
+            model: document.getElementById('model').value,
+            country: document.getElementById('country').value,
+            education: document.getElementById('education').value,
+            employment: document.getElementById('employment').value,
+            experience: document.getElementById('experience').value
+        };
+        const resp = await fetch('/api/ml-prediction', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+        document.getElementById('prediction-result').innerHTML = result.prediction ?
+            `<div class="result-success">Predicted Salary: <span style="font-weight:700;color:#22c55e">$${result.prediction.toLocaleString()}</span></div>` :
+            `<div class="result-failure">Prediction failed.</div>`;
+    };
+
+    // Salary Analytics Charts (Chart.js)
+    function loadChart(canvasId, endpoint, chartType) {
+        fetch(endpoint)
+          .then(r => r.json())
+          .then(data => {
+            new Chart(document.getElementById(canvasId).getContext('2d'), {
+                type: chartType,
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        x: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                    }
+                }
+            });
+        });
+    }
+    loadChart('salaryDistributionChart', '/api/chart-data/salary_distribution', 'bar');
+    loadChart('topCountriesChart', '/api/chart-data/top_countries', 'bar');
+    loadChart('educationSalaryChart', '/api/chart-data/education_salary', 'bar');
+    loadChart('employmentSalaryChart', '/api/chart-data/employment_salary', 'bar');
+});
+
+function animateCountUp(target, value, duration = 1200) {
+    let start = 0;
+    let startTime = null;
+    function animateStep(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const current = Math.floor(progress * value);
+        target.textContent = '$' + current.toLocaleString();
+        if (progress < 1) {
+            requestAnimationFrame(animateStep);
+        } else {
+            target.textContent = '$' + value.toLocaleString();
+        }
+    }
+    requestAnimationFrame(animateStep);
+}
+
+document.getElementById('salaryPredictionForm').onsubmit = async function(e) {
+    e.preventDefault();
+    // Hide placeholder, show animated result
+    document.getElementById('predictionPlaceholder').style.display = 'none';
+    document.getElementById('animatedSalaryResult').style.display = 'flex';
+    const data = {
+        model: document.getElementById('model').value,
+        country: document.getElementById('country').value,
+        education: document.getElementById('education').value,
+        employment: document.getElementById('employment').value,
+        experience: document.getElementById('experience').value
+    };
+    const resp = await fetch('/api/ml-prediction', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    });
+    const result = await resp.json();
+    const salary = result.prediction ? Number(result.prediction) : 0;
+    const salaryElem = document.getElementById('salaryAmount');
+    salaryElem.textContent = '$0';
+    animateCountUp(salaryElem, salary);
+};
+
+// Optional: Reset to placeholder when editing any input
+['model','country','education','employment','experience'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+        document.getElementById('animatedSalaryResult').style.display = 'none';
+        document.getElementById('predictionPlaceholder').style.display = 'block';
+    });
+});
+</script>
+{% endblock %}
