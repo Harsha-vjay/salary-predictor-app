@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Salary Dashboard - Architecture Diagram</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .diagram-container {
+            width: 1920px;
+            height: 1080px;
+            background: #000000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        /* Left Section - File Structure */
+        .left-section {
+            width: 450px;
+            align-items: flex-start;
+        }
+
+        .file-structure {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(138, 102, 255, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .directory {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #e0e0e0;
+        }
+
+        .directory-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .directory-name {
+            font-weight: 500;
+            color: #8a66ff;
+        }
+
+        .sub-files {
+            margin-left: 40px;
+            margin-top: 10px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        .file-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        /* Center Section - Orchestrator */
+        .center-section {
+            width: 300px;
+            align-items: center;
+        }
+
+        .orchestrator {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid rgba(138, 102, 255, 0.5);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(138, 102, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .orchestrator-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .orchestrator-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .orchestrator-desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        /* Right Section - Components */
+        .right-section {
+            width: 450px;
+            align-items: flex-end;
+        }
+
+        .components-group {
+            margin-bottom: 35px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(138, 102, 255, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            width: 100%;
+        }
+
+        .group-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #8a66ff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .group-icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .component-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .component-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .component-item:hover {
+            background: rgba(138, 102, 255, 0.2);
+            border-color: rgba(138, 102, 255, 0.5);
+        }
+
+        .component-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        /* Connection Lines */
+        .connection-line {
+            position: absolute;
+            background: linear-gradient(90deg, #8a66ff 0%, #667eea 100%);
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .line-left-center {
+            width: 150px;
+            height: 2px;
+            top: 50%;
+            left: 510px;
+            transform: translateY(-50%);
+        }
+
+        .line-center-right {
+            width: 150px;
+            height: 2px;
+            top: 50%;
+            right: 510px;
+            transform: translateY(-50%);
+        }
+
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid #8a66ff;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        .arrow-center {
+            top: 50%;
+            left: 645px;
+            transform: translateY(-50%);
+        }
+
+        .arrow-right {
+            top: 50%;
+            right: 375px;
+            transform: translateY(-50%);
+        }
+
+        /* Title */
+        .main-title {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        /* Export Button */
+        .export-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(138, 102, 255, 0.3);
+        }
+
+        /* Glow Effects */
+        .glow-effect {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(138, 102, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            top: 20%;
+            left: 10%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .glow-2 {
+            bottom: 20%;
+            right: 15%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-20px) scale(1.1); opacity: 0.6; }
+        }
+    </style>
+</head>
+<body>
+    <button class="export-btn" onclick="exportToPNG()">Export as PNG</button>
+    
+    <div class="diagram-container" id="diagram">
+        <!-- Background Glow Effects -->
+        <div class="glow-effect glow-1"></div>
+        <div class="glow-effect glow-2"></div>
+        
+        <!-- Main Title -->
+        <div class="main-title">Architecture</div>
+        
+        <!-- Connection Lines -->
+        <div class="connection-line line-left-center"></div>
+        <div class="connection-line line-center-right"></div>
+        <div class="arrow arrow-center"></div>
+        <div class="arrow arrow-right"></div>
+        
+        <!-- Left Section - File Structure -->
+        <div class="section left-section">
+            <div class="section-title">Project Structure</div>
+            <div class="file-structure">
+                <div class="directory">
+                    <div class="directory-icon">📁</div>
+                    <span class="directory-name">/app</span>
+                </div>
+                <div class="sub-files">
+                    <div class="file-item">
+                        <div class="file-icon">🐍</div>
+                        <span>app.py</span>
+                    </div>
+                </div>
+                
+                <div class="directory">
+                    <div class="directory-icon">📁</div>
+                    <span class="directory-name">app/templates</span>
+                </div>
+                <div class="sub-files">
+                    <div class="file-item">
+                        <div class="file-icon">🌐</div>
+                        <span>base.html</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">🎨</div>
+                        <span>dashboard.html</span>
+                    </div>
+                </div>
+                
+                <div class="directory">
+                    <div class="directory-icon">📁</div>
+                    <span class="directory-name">/data</span>
+                </div>
+                <div class="sub-files">
+                    <div class="file-item">
+                        <div class="file-icon">📊</div>
+                        <span>survey_results_public.csv</span>
+                    </div>
+                </div>
+                
+                <div class="directory">
+                    <div class="directory-icon">📁</div>
+                    <span class="directory-name">/models</span>
+                </div>
+                <div class="sub-files">
+                    <div class="file-item">
+                        <div class="file-icon">📈</div>
+                        <span>features.pkl</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">📈</div>
+                        <span>rf_pipeline.pkl</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">📈</div>
+                        <span>lr_pipeline.pkl</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">📈</div>
+                        <span>xgb_pipeline.pkl</span>
+                    </div>
+                </div>
+                
+                <div class="directory">
+                    <div class="directory-icon">📁</div>
+                    <span class="directory-name">app/static</span>
+                </div>
+                <div class="sub-files">
+                    <div class="file-item">
+                        <div class="file-icon">💄</div>
+                        <span>styles.css</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">⚡</div>
+                        <span>main.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Center Section - Orchestrator -->
+        <div class="section center-section">
+            <div class="orchestrator">
+                <div class="orchestrator-icon">🎯</div>
+                <div class="orchestrator-title">app.py</div>
+                <div class="orchestrator-desc">
+                    Main Flask Application<br>
+                    Route Handler & Orchestrator<br>
+                    API Endpoints & Logic
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Section - Technology Stack -->
+        <div class="section right-section">
+            
+            
+            <div class="components-group">
+                <div class="group-title">
+                    <div class="group-icon">⚙️</div>
+                    Backend
+                </div>
+                <div class="component-list">
+                    <div class="component-item">
+                        <div class="component-icon">🐍</div>
+                        Python
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🌶️</div>
+                        Flask
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🐼</div>
+                        Pandas
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🔢</div>
+                        NumPy
+                    </div>
+                </div>
+            </div>
+            
+            <div class="components-group">
+                <div class="group-title">
+                    <div class="group-icon">🎨</div>
+                    Frontend
+                </div>
+                <div class="component-list">
+                    <div class="component-item">
+                        <div class="component-icon">🌐</div>
+                        HTML5
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🎨</div>
+                        CSS3
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">📊</div>
+                        Chart.js
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">📈</div>
+                        Plotly
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🅱️</div>
+                        Bootstrap
+                    </div>
+                </div>
+            </div>
+            
+            <div class="components-group">
+                <div class="group-title">
+                    <div class="group-icon">🤖</div>
+                    ML Models
+                </div>
+                <div class="component-list">
+                    <div class="component-item">
+                        <div class="component-icon">📈</div>
+                        Linear Regression
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🌳</div>
+                        Random Forest
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🚀</div>
+                        XGBoost
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🧠</div>
+                        Scikit-learn
+                    </div>
+                </div>
+            </div>
+            
+            <div class="components-group">
+                <div class="group-title">
+                    <div class="group-icon">🚀</div>
+                    Deployment
+                </div>
+                <div class="component-list">
+                    <div class="component-item">
+                        <div class="component-icon">🐳</div>
+                        Docker
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">☁️</div>
+                        Render
+                    </div>
+                    <div class="component-item">
+                        <div class="component-icon">🔧</div>
+                        Requirements.txt
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function exportToPNG() {
+            const element = document.getElementById('diagram');
+            const exportBtn = document.querySelector('.export-btn');
+            
+            // Hide the export button temporarily
+            exportBtn.style.display = 'none';
+            
+            html2canvas(element, {
+                scale: 2, // High resolution
+                backgroundColor: '#0a0a0a',
+                width: 1920,
+                height: 1080,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                // Show the export button again
+                exportBtn.style.display = 'block';
+                
+                // Create download link
+                const link = document.createElement('a');
+                link.download = 'developer-salary-dashboard-architecture.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }).catch(error => {
+                exportBtn.style.display = 'block';
+                console.error('Error generating PNG:', error);
+                alert('Error generating PNG. Please try again.');
+            });
+        }
+
+        // Add subtle animations on load
+        window.addEventListener('load', function() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    section.style.transition = 'all 0.8s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
