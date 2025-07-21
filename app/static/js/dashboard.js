@@ -1,4 +1,3 @@
-// Dashboard JavaScript - Glassmorphic Data Science Dashboard
 class Dashboard {
     constructor() {
         this.charts = {};
